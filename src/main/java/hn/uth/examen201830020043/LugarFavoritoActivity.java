@@ -57,8 +57,8 @@ public class LugarFavoritoActivity extends AppCompatActivity implements Location
         binding = ActivityLugarFavoritoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.tilLatitud.getEditText().setText("33");
-        binding.tilLongitud.getEditText().setText("-33");
+        /*binding.tilLatitud.getEditText().setText("33");
+        binding.tilLongitud.getEditText().setText("-33");*/
 
         contactoViewModel =
                 new ViewModelProvider(this).get(ContactoViewModel.class);
@@ -107,6 +107,12 @@ public class LugarFavoritoActivity extends AppCompatActivity implements Location
             intent.putExtra("listContact",contactoList);
             launcher.launch(intent);
             RESULT_CODE = 2;
+        });
+
+        binding.btnLimpiar.setOnClickListener(e -> {
+            binding.tilNombre.getEditText().setText(null);
+            binding.tilLongitud.getEditText().setText(null);
+            binding.tilLatitud.getEditText().setText(null);
         });
 
         binding.imgLocation.setOnClickListener(e -> solicitarPermisosGPS());
