@@ -28,6 +28,9 @@ public class ContactoViewModel extends AndroidViewModel {
     public LiveData<List<Contacto>> getForLugar(int lugar) {
         return repository.getForLugar(lugar);
     }
+    public LiveData<List<Contacto>> getForVisita(int lugar) {
+        return repository.getForVisita(lugar);
+    }
     public void delete(Contacto contacto){
         repository.delete(contacto);
     }

@@ -14,13 +14,16 @@ import java.util.concurrent.Executors;
 
 import hn.uth.examen201830020043.DataBase.Daos.ContactoDao;
 import hn.uth.examen201830020043.DataBase.Daos.LugarFavoritoDao;
+import hn.uth.examen201830020043.DataBase.Daos.VisitaDao;
 import hn.uth.examen201830020043.DataBase.Entities.Contacto;
 import hn.uth.examen201830020043.DataBase.Entities.LugarFavorito;
+import hn.uth.examen201830020043.DataBase.Entities.Visita;
 
-@Database(version = 1, exportSchema = false, entities = {LugarFavorito.class, Contacto.class})
+@Database(version = 1, exportSchema = false, entities = {LugarFavorito.class, Contacto.class, Visita.class})
 public abstract class DB extends RoomDatabase {
     public abstract LugarFavoritoDao lugarFavoritoDao();
     public abstract ContactoDao contactoDao();
+    public abstract VisitaDao visitaDao();
 
     private static volatile DB INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -44,6 +47,9 @@ public abstract class DB extends RoomDatabase {
                                 //dao.insert(new LugarFavorito("Prueba","Playa",-1,-1));
                                 ContactoDao contactDao = INSTANCE.contactoDao();
                                 contactDao.deleteAll();
+
+                                VisitaDao visita = INSTANCE.visitaDao();
+                                visita.deleteAll();
                             });
 
                         }

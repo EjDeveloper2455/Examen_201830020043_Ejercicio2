@@ -32,4 +32,6 @@ public interface ContactoDao {
 
     @Query("select * from contacto_table where lugar_id = :id order by nombre")
     LiveData<List<Contacto>> getForLugar(int id);
+    @Query("select * from contacto_table where visita_id = :id order by nombre")
+    LiveData<List<Contacto>> getForVisita(int id);
 }

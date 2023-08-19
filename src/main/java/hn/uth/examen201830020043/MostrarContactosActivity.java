@@ -44,6 +44,8 @@ public class MostrarContactosActivity extends AppCompatActivity implements OnIte
 
         adapter = new DeviceContactAdapter(solicitarPermisoContactos(),this);
 
+        binding.imgSearch.setOnClickListener(e -> adapter.setItems(solicitarPermisoContactos()));
+
         setupRecyclerView();
     }
 

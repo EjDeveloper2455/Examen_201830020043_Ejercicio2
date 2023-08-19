@@ -29,6 +29,10 @@ public class ContactoRepository {
         return dao.getForLugar(lugar);
     }
 
+    public LiveData<List<Contacto>> getForVisita(int lugar) {
+        return dao.getForVisita(lugar);
+    }
+
     public void insert(Contacto nuevo){
         //INSERTANDO DE FORMA ASINCRONA, PARA NO AFECTAR LA INTERFAZ DE USUARIO
         DB.databaseWriteExecutor.execute(() -> {

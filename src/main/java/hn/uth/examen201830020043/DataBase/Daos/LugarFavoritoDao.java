@@ -28,4 +28,6 @@ public interface LugarFavoritoDao {
 
     @Query("select * from lugar_favorito_table order by id asc")
     LiveData<List<LugarFavorito>> getAlls();
+    @Query("select * from lugar_favorito_table where id = :id")
+    LiveData<List<LugarFavorito>> getLugarFavorito(int id);
 }

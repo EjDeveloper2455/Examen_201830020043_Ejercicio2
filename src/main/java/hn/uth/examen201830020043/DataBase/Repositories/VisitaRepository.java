@@ -8,41 +8,39 @@ import java.util.List;
 
 import hn.uth.examen201830020043.DataBase.DB;
 import hn.uth.examen201830020043.DataBase.Daos.LugarFavoritoDao;
+import hn.uth.examen201830020043.DataBase.Daos.VisitaDao;
 import hn.uth.examen201830020043.DataBase.Entities.LugarFavorito;
+import hn.uth.examen201830020043.DataBase.Entities.Visita;
 
-public class LugarFavoritoRepository {
-    private LugarFavoritoDao dao;
-    private LiveData<List<LugarFavorito>> dataset;
+public class VisitaRepository {
+    private VisitaDao dao;
+    private LiveData<List<Visita>> dataset;
 
-    public LugarFavoritoRepository(Application app) {
+    public VisitaRepository(Application app) {
         DB db = DB.getDatabase(app);
-        this.dao = db.lugarFavoritoDao();
+        this.dao = db.visitaDao();
         this.dataset = dao.getAlls();
     }
 
-    public LiveData<List<LugarFavorito>> getDataset() {
+    public LiveData<List<Visita>> getDataset() {
         return dataset;
     }
 
-    public LiveData<List<LugarFavorito>> getLugarFavorito(int id) {
-        return dao.getLugarFavorito(id);
-    }
-
-    public void insert(LugarFavorito nuevo){
+    public void insert(Visita nuevo){
         //INSERTANDO DE FORMA ASINCRONA, PARA NO AFECTAR LA INTERFAZ DE USUARIO
         DB.databaseWriteExecutor.execute(() -> {
             dao.insert(nuevo);
         });
     }
 
-    public void update(LugarFavorito actualizar){
+    public void update(Visita actualizar){
         //ACTUALIZANDO DE FORMA ASINCRONA, PARA NO AFECTAR LA INTERFAZ DE USUARIO
         DB.databaseWriteExecutor.execute(() -> {
             dao.update(actualizar);
         });
     }
 
-    public void delete(LugarFavorito borrar){
+    public void delete(Visita borrar){
         //BORRANDO UN REGISTRO DE FORMA ASINCRONA, PARA NO AFECTAR LA INTERFAZ DE USUARIO
         DB.databaseWriteExecutor.execute(() -> {
             dao.delete(borrar);

@@ -1,5 +1,6 @@
 package hn.uth.examen201830020043.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,36 +10,48 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
 
 import hn.uth.examen201830020043.DataBase.Entities.Contacto;
+import hn.uth.examen201830020043.DataBase.Entities.Visita;
+import hn.uth.examen201830020043.ListaContactosActivity;
+import hn.uth.examen201830020043.R;
 import hn.uth.examen201830020043.databinding.FragmentDashboardBinding;
 import hn.uth.examen201830020043.ui.OnItemClickListener;
 import hn.uth.examen201830020043.ui.home.ContactAdapter;
 import hn.uth.examen201830020043.ui.home.ContactoViewModel;
+import hn.uth.examen201830020043.ui.notifications.VisitaAdapter;
+import hn.uth.examen201830020043.ui.notifications.VisitaViewModel;
 
-public class DashboardFragment extends Fragment implements OnItemClickListener<Contacto> {
+public class DashboardFragment extends Fragment implements OnItemClickListener<Visita> {
 
     private FragmentDashboardBinding binding;
 
-    ContactAdapter adapter;
-
+    VisitaAdapter adapter;
+    VisitaViewModel visitaViewModel;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ContactoViewModel contactoViewModel =
-                new ViewModelProvider(this).get(ContactoViewModel.class);
+        visitaViewModel =
+                new ViewModelProvider(this).get(VisitaViewModel.class);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        adapter = new ContactAdapter(new ArrayList<>(),this);
+        adapter = new VisitaAdapter(new ArrayList<>(),this);
 
-        contactoViewModel.getForLugar(2).observe(getViewLifecycleOwner(), contactoList -> {
-            if (!contactoList.isEmpty()){
-                adapter.setItems(contactoList);
+        visitaViewModel.getDataset().observe(getViewLifecycleOwner(), visitas -> {
+            if (!visitas.isEmpty()){
+                adapter.setItems(visitas);
             }
+        });
+
+        binding.btnHome.setOnClickListener(e ->{
+            NavController navController = Navigation.findNavController(this.getActivity(), R.id.nav_host_fragment_activity_main);
+            navController.navigate(R.id.navigation_home);
         });
 
         setupRecyclerView();
@@ -59,7 +72,13 @@ public class DashboardFragment extends Fragment implements OnItemClickListener<C
     }
 
     @Override
-    public void onItemClick(Contacto data, int accion) {
-
+    public void onItemClick(Visita data, int accion) {
+        if (accion == 0){
+            visitaViewModel.delete(data);
+        }else{
+            Intent intent = new Intent(this.getContext(), ListaContactosActivity.class);
+            intent.putExtra("visita",data);
+            startActivity(intent);
+        }
     }
 }

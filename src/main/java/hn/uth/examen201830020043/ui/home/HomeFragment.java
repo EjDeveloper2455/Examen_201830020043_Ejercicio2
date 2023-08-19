@@ -14,6 +14,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -25,6 +27,7 @@ import hn.uth.examen201830020043.DataBase.Entities.DeviceContact;
 import hn.uth.examen201830020043.DataBase.Entities.LugarFavorito;
 import hn.uth.examen201830020043.ListaContactosActivity;
 import hn.uth.examen201830020043.LugarFavoritoActivity;
+import hn.uth.examen201830020043.R;
 import hn.uth.examen201830020043.databinding.FragmentHomeBinding;
 import hn.uth.examen201830020043.ui.OnItemClickListener;
 
@@ -81,12 +84,15 @@ public class HomeFragment extends Fragment implements OnItemClickListener<LugarF
 
                         homeViewModel.getDataset().observe(getViewLifecycleOwner(), lugares -> {
                             if(!lugares.isEmpty()){
-                                for (LugarFavorito lugar: lugares) {
-                                    idLugar = lugar.getId();
-                                }
+                                if (result.getData().getStringExtra("action").equals("nuevo")) {
+                                    for (LugarFavorito lugar : lugares) {
+                                        idLugar = lugar.getId();
+                                    }
+                                }else idLugar = lugarFavorito.getId();
                                 if (idLugar>-1){
                                     for (Contacto contacto: contactoList) {
                                         if (contacto.getId() == -1){
+
                                             Contacto newContacto = new Contacto(contacto.getNombre(),contacto.getTelefono(),contacto.getEmail(),idLugar,-1);
                                             contactoViewModel.insert(newContacto);
                                         }if(contacto.getLugarId() == -2) contactoViewModel.delete(contacto);
@@ -135,6 +141,11 @@ public class HomeFragment extends Fragment implements OnItemClickListener<LugarF
             Intent intent = new Intent(this.getContext(), ListaContactosActivity.class);
             intent.putExtra("lugar",data);
             startActivity(intent);
+        }else if(accion == 4){
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("lugarVisita", data);
+            NavController navController = Navigation.findNavController(this.getActivity(), R.id.nav_host_fragment_activity_main);
+            navController.navigate(R.id.navigation_notifications, bundle);
         }
 
     }

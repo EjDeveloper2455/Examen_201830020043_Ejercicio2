@@ -23,6 +23,9 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<List<LugarFavorito>> getDataset() {
         return this.dataset;
     }
+    public LiveData<List<LugarFavorito>> getLugarFavorito(int id) {
+        return repository.getLugarFavorito(id);
+    }
     public void delete(LugarFavorito eliminar){
         repository.delete(eliminar);
     }

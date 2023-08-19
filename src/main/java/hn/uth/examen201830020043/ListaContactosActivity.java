@@ -14,6 +14,7 @@ import java.util.List;
 import hn.uth.examen201830020043.DataBase.Entities.Contacto;
 import hn.uth.examen201830020043.DataBase.Entities.DeviceContact;
 import hn.uth.examen201830020043.DataBase.Entities.LugarFavorito;
+import hn.uth.examen201830020043.DataBase.Entities.Visita;
 import hn.uth.examen201830020043.databinding.ActivityListaContactosBinding;
 import hn.uth.examen201830020043.ui.OnItemClickListener;
 import hn.uth.examen201830020043.ui.home.ContactAdapter;
@@ -58,6 +59,16 @@ public class ListaContactosActivity extends AppCompatActivity implements OnItemC
             contactoViewModel.getForLugar(lugarFavorito.getId()).observe(this, contactos -> {
                 if (!contactos.isEmpty()) {
                     adapter.setItems(contactos);
+                }
+            });
+
+        }
+
+        if(getDataIntent.hasExtra("visita")){
+            Visita visita = (Visita) getDataIntent.getSerializableExtra("visita");
+            contactoViewModel.getForVisita(visita.getId()).observe(this, visitas -> {
+                if (!visitas.isEmpty()) {
+                    adapter.setItems(visitas);
                 }
             });
 
