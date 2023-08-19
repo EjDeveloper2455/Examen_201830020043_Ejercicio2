@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import hn.uth.examen_201830020043.databinding.FragmentHomeBinding;
+import hn.uth.examen201830020043.databinding.FragmentHomeBinding;
+
 
 public class HomeFragment extends Fragment {
 
@@ -24,8 +25,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

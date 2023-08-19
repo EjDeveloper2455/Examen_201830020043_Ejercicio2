@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import hn.uth.examen201830020043.DataBase.Entities.Contacto;
 import hn.uth.examen201830020043.DataBase.Entities.LugarFavorito;
 import hn.uth.examen201830020043.DataBase.Repositories.LugarFavoritoRepository;
 
@@ -21,5 +22,14 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<List<LugarFavorito>> getDataset() {
         return this.dataset;
+    }
+    public void delete(LugarFavorito eliminar){
+        repository.delete(eliminar);
+    }
+    public void insert(LugarFavorito nuevo){
+        repository.insert(nuevo);
+    }
+    public void update(LugarFavorito nuevo){
+        repository.update(nuevo);
     }
 }

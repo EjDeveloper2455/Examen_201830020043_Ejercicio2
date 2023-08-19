@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import hn.uth.examen_201830020043.databinding.FragmentNotificationsBinding;
+import hn.uth.examen201830020043.databinding.FragmentNotificationsBinding;
+
 
 public class NotificationsFragment extends Fragment {
 

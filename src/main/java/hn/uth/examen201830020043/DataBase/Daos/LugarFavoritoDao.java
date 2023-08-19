@@ -26,6 +26,6 @@ public interface LugarFavoritoDao {
     @Delete
     void delete(LugarFavorito eliminar);
 
-    @Query("select * from lugar_favorito_table order by nombre")
+    @Query("select * from lugar_favorito_table order by id asc")
     LiveData<List<LugarFavorito>> getAlls();
 }

@@ -56,6 +56,9 @@ public class LugarFavoritoAdapter extends RecyclerView.Adapter<LugarFavoritoAdap
 
         public void setOnItemClickListener(LugarFavorito lugarFavorito, OnItemClickListener<LugarFavorito> listener){
             binding.imgAbrirMapaLugar.setOnClickListener(e ->listener.onItemClick(lugarFavorito,2));
+            binding.imgEditLugar.setOnClickListener(e ->listener.onItemClick(lugarFavorito,1));
+            binding.imgDeleteLugar.setOnClickListener(e ->listener.onItemClick(lugarFavorito,0));
+            binding.imgVerLugar.setOnClickListener(e ->listener.onItemClick(lugarFavorito,3));
         }
     }
 }

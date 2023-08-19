@@ -71,7 +71,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:textColorHint="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imgLocation"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/spnTipos">
 
@@ -79,8 +79,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/material_dynamic_primary10"
-                    android:hint="Latitud" />
+                    android:focusable="false"
+                    android:hint="Latitud"
+                    android:textColor="@color/white" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/imgLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="@+id/tilLongitud"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tilLatitud"
+                app:srcCompat="@drawable/baseline_my_location_24" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilLongitud"
@@ -90,7 +103,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:textColorHint="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imgLocation"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilLatitud">
 
@@ -98,7 +111,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/material_dynamic_primary10"
-                    android:hint="Longitud" />
+                    android:focusable="false"
+                    android:hint="Longitud"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -133,7 +148,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/material_dynamic_primary10"
-                    android:hint="Nombre" />
+                    android:hint="Nombre"
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -175,7 +191,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Button"
+                android:text="Ver contactos"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

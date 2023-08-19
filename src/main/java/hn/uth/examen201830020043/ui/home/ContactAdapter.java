@@ -11,6 +11,7 @@ import java.util.List;
 
 import hn.uth.examen201830020043.DataBase.Entities.Contacto;
 import hn.uth.examen201830020043.databinding.ContactItemBinding;
+import hn.uth.examen201830020043.databinding.ContactLugarItemBinding;
 import hn.uth.examen201830020043.ui.OnItemClickListener;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
@@ -24,16 +25,16 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ContactItemBinding binding = ContactItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ContactLugarItemBinding binding = ContactLugarItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Contacto contact = dataset.get(position);
-        holder.getBinding().tvContactName.setText(contact.getNombre());
-        holder.getBinding().tvContactPhone.setText(contact.getTelefono());
-        holder.setOnclickListener(contact,listener);
+        holder.getBinding().tvContactNombre.setText(contact.getNombre());
+        holder.getBinding().tvContactTelefono.setText(contact.getTelefono());
+        holder.setOnclickListener(contact,listener,position);
     }
 
     @Override
@@ -45,15 +46,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         notifyDataSetChanged();
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private ContactItemBinding binding;
-        public ViewHolder(@NonNull ContactItemBinding binding) {
+        private ContactLugarItemBinding binding;
+        public ViewHolder(@NonNull ContactLugarItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
-        public void setOnclickListener(Contacto emergyContact, OnItemClickListener<Contacto> listener){
-            binding.btnContactAdd.setOnClickListener(e -> listener.onItemClick(emergyContact,0));
+        public void setOnclickListener(Contacto emergyContact, OnItemClickListener<Contacto> listener,int posicion){
+            binding.btnContactDelete.setOnClickListener(e -> listener.onItemClick(emergyContact,posicion));
         }
-        public ContactItemBinding getBinding(){
+        public ContactLugarItemBinding getBinding(){
             return binding;
         }
     }

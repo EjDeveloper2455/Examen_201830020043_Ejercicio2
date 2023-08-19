@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "contacto")
-public class Contacto {
+import java.io.Serializable;
+
+@Entity(tableName = "contacto_table")
+public class Contacto implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
@@ -30,9 +32,9 @@ public class Contacto {
 
     @NonNull
     @ColumnInfo(name = "visita_id")
-    private String visitaId;
+    private int visitaId;
 
-    public Contacto(@NonNull String nombre, @NonNull String telefono, @NonNull String email, int lugarId, @NonNull String visitaId) {
+    public Contacto(@NonNull String nombre, @NonNull String telefono, @NonNull String email, int lugarId, @NonNull int visitaId) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
@@ -84,11 +86,11 @@ public class Contacto {
     }
 
     @NonNull
-    public String getVisitaId() {
+    public int getVisitaId() {
         return visitaId;
     }
 
-    public void setVisitaId(@NonNull String visitaId) {
+    public void setVisitaId(@NonNull int visitaId) {
         this.visitaId = visitaId;
     }
 }

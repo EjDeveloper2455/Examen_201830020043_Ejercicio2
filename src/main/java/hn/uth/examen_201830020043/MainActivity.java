@@ -10,7 +10,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import hn.uth.examen_201830020043.databinding.ActivityMainBinding;
+import hn.uth.examen201830020043.R;
+import hn.uth.examen201830020043.databinding.ActivityMainBinding;
+
 
 public class MainActivity extends AppCompatActivity {
 

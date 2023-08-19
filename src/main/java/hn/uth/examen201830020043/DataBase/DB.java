@@ -12,12 +12,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import hn.uth.examen201830020043.DataBase.Daos.ContactoDao;
 import hn.uth.examen201830020043.DataBase.Daos.LugarFavoritoDao;
+import hn.uth.examen201830020043.DataBase.Entities.Contacto;
 import hn.uth.examen201830020043.DataBase.Entities.LugarFavorito;
 
-@Database(version = 1, exportSchema = false, entities = {LugarFavorito.class})
+@Database(version = 1, exportSchema = false, entities = {LugarFavorito.class, Contacto.class})
 public abstract class DB extends RoomDatabase {
     public abstract LugarFavoritoDao lugarFavoritoDao();
+    public abstract ContactoDao contactoDao();
 
     private static volatile DB INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -38,7 +41,9 @@ public abstract class DB extends RoomDatabase {
                             databaseWriteExecutor.execute(() -> {
                                 LugarFavoritoDao dao = INSTANCE.lugarFavoritoDao();
                                 dao.deleteAll();
-                                dao.insert(new LugarFavorito("Prueba 1","Tipo prueba",33,-33));
+                                //dao.insert(new LugarFavorito("Prueba","Playa",-1,-1));
+                                ContactoDao contactDao = INSTANCE.contactoDao();
+                                contactDao.deleteAll();
                             });
 
                         }

@@ -4,6 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="selecciona_tipo_lugar">Selecciona un tipo de lugar</string>
+    <string name="mis_contactos">Mis contactos del dispositivo</string>
     <string-array name="tipos_de_lugares">
         <item>Playas</item>
         <item>Montañas</item>

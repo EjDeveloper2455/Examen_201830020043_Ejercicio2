@@ -1,6 +1,8 @@
 package hn.uth.examen201830020043.DataBase.Entities;
 
-public class DeviceContact {
+import java.io.Serializable;
+
+public class DeviceContact implements Serializable {
     private String nombre;
     private String telefono;
     private String emai;
