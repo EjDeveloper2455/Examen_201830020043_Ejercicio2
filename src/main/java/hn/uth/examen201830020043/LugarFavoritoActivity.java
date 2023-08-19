@@ -2,13 +2,24 @@ package hn.uth.examen201830020043;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -24,10 +35,12 @@ import hn.uth.examen201830020043.databinding.ActivityLugarFavoritoBinding;
 import hn.uth.examen201830020043.ui.home.ContactoViewModel;
 import hn.uth.examen201830020043.ui.home.HomeViewModel;
 
-public class LugarFavoritoActivity extends AppCompatActivity {
+public class LugarFavoritoActivity extends AppCompatActivity implements LocationListener {
     private ActivityLugarFavoritoBinding binding;
     private ArrayList<Contacto> contactoList;
     private ActivityResultLauncher<Intent> launcher;
+    private static final int REQUEST_CODE_GPS = 555;
+    private LocationManager locationManager;
 
     private int RESULT_CODE;
     private int idLugar = -1;
@@ -36,12 +49,16 @@ public class LugarFavoritoActivity extends AppCompatActivity {
 
     private ContactoViewModel contactoViewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityLugarFavoritoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.tilLatitud.getEditText().setText("33");
+        binding.tilLongitud.getEditText().setText("-33");
 
         contactoViewModel =
                 new ViewModelProvider(this).get(ContactoViewModel.class);
@@ -92,10 +109,14 @@ public class LugarFavoritoActivity extends AppCompatActivity {
             RESULT_CODE = 2;
         });
 
-        binding.btnGuardarLugar.setOnClickListener(e ->{
+        binding.imgLocation.setOnClickListener(e -> solicitarPermisosGPS());
 
+        binding.btnGuardarLugar.setOnClickListener(e ->{
+            if(!validar())return;
             LugarFavorito lugarFavorito = new LugarFavorito(binding.tilNombre.getEditText().getText().toString(),
-                    binding.spnTipos.getSelectedItem().toString(),33,-33);
+                    binding.spnTipos.getSelectedItem().toString(),
+                    Double.parseDouble(binding.tilLatitud.getEditText().getText().toString()),
+                    Double.parseDouble(binding.tilLongitud.getEditText().getText().toString()));
 
             if (lugar != null)lugarFavorito.setId(lugar.getId());
 
@@ -134,5 +155,72 @@ public class LugarFavoritoActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private boolean validar(){
+        if(binding.tilNombre.getEditText().getText().toString().isEmpty()){
+            binding.tilNombre.setError("*Campo requerido*");
+            return false;
+        }else if(binding.tilLatitud.getEditText().getText().toString().isEmpty()){
+            binding.tilLatitud.setError("*Campo requerido*");
+            return false;
+        }
+        else if(binding.tilLongitud.getEditText().getText().toString().isEmpty()){
+            binding.tilLongitud.setError("*Campo requerido*");
+            return false;
+        }
+        return true;
+    }
+
+    private void solicitarPermisosGPS() {
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            //TENGO EL PERMISO, PUEDO UTILIZAR EL GPS
+            useFineLocation();
+        }else{
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_GPS);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_CODE_GPS){
+            if(grantResults.length > 0){
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    useFineLocation();
+                }else if(grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                    useCoarseLocation();
+                }
+            }else{
+
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @SuppressLint({"ServiceCast", "MissingPermission"})
+    private void useCoarseLocation() {
+        //OBTIENE EL SERVICIO DE UBICACIÓN DEL DISPOSITIVO
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        //SOLICITAMOS ACTUALIZAR LA POSICIÓN GPS CON DETERMINADA APROXIMACIÓN (NETWORK_PROVIDER = COARSE_LOCATION = UBICACIÓN APROXIMADA)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+    }
+    @SuppressLint({"ServiceCast", "MissingPermission"})
+    private void useFineLocation() {
+        //OBTIENE EL SERVICIO DE UBICACIÓN DEL DISPOSITIVO
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        //SOLICITAMOS ACTUALIZAR LA POSICIÓN GPS CON DETERMINADA APROXIMACIÓN (GPS_PROVIDER = FINE_LOCATION = UBICACIÓN EXACTA)
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        binding.tilLatitud.getEditText().setText(location.getLatitude()+"");
+        binding.tilLongitud.getEditText().setText(location.getLongitude()+"");
+
+        //DETENER ACTUALIZACION DE UBICACION PARA DEJARLO DE UN SOLO USO (SI SE QUIERE SEGUIMIENTO NO HACER ESTA PARTE)
+        locationManager.removeUpdates(this);
     }
 }
